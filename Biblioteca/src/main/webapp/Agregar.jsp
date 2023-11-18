@@ -12,6 +12,7 @@
         <link href="css/Agregar.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <!-- Hola -->
         <h1>Registro de Usuarios</h1>
 
         <form action="agregarUsu" method="post">
