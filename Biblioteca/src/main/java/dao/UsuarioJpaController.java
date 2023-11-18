@@ -23,44 +23,26 @@ import javax.persistence.Persistence;
  * @author ANGHELO
  */
 public class UsuarioJpaController implements Serializable {
-    
+
     public UsuarioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
+
     public UsuarioJpaController() {
     }
-    
+
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Biblioteca_war_1.0-SNAPSHOTPU");
-    
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
+
     public void create(Usuario usuario) {
-        if (usuario.getPrestamosList() == null) {
-            usuario.setPrestamosList(new ArrayList<Prestamos>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Prestamos> attachedPrestamosList = new ArrayList<Prestamos>();
-            for (Prestamos prestamosListPrestamosToAttach : usuario.getPrestamosList()) {
-                prestamosListPrestamosToAttach = em.getReference(prestamosListPrestamosToAttach.getClass(), prestamosListPrestamosToAttach.getCodiPres());
-                attachedPrestamosList.add(prestamosListPrestamosToAttach);
-            }
-            usuario.setPrestamosList(attachedPrestamosList);
             em.persist(usuario);
-            for (Prestamos prestamosListPrestamos : usuario.getPrestamosList()) {
-                Usuario oldCodiUsuaOfPrestamosListPrestamos = prestamosListPrestamos.getCodiUsua();
-                prestamosListPrestamos.setCodiUsua(usuario);
-                prestamosListPrestamos = em.merge(prestamosListPrestamos);
-                if (oldCodiUsuaOfPrestamosListPrestamos != null) {
-                    oldCodiUsuaOfPrestamosListPrestamos.getPrestamosList().remove(prestamosListPrestamos);
-                    oldCodiUsuaOfPrestamosListPrestamos = em.merge(oldCodiUsuaOfPrestamosListPrestamos);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -68,7 +50,7 @@ public class UsuarioJpaController implements Serializable {
             }
         }
     }
-    
+
     public void edit(Usuario usuario) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -118,7 +100,7 @@ public class UsuarioJpaController implements Serializable {
             }
         }
     }
-    
+
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -144,15 +126,15 @@ public class UsuarioJpaController implements Serializable {
             }
         }
     }
-    
+
     public List<Usuario> findUsuarioEntities() {
         return findUsuarioEntities(true, -1, -1);
     }
-    
+
     public List<Usuario> findUsuarioEntities(int maxResults, int firstResult) {
         return findUsuarioEntities(false, maxResults, firstResult);
     }
-    
+
     private List<Usuario> findUsuarioEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -168,7 +150,7 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Usuario findUsuario(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -177,7 +159,7 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getUsuarioCount() {
         EntityManager em = getEntityManager();
         try {
@@ -190,7 +172,7 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Usuario validar(String logiUsua, String passUsua, String roles) {
         EntityManager em = getEntityManager();
         try {
@@ -205,5 +187,5 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -149,7 +149,6 @@
                                     <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">
                                     <button class="btn btn-info"><i class="zmdi zmdi-file-text"></i></button>
                                 </form>
-                         
                             </div>
                         </div>
                         <% }%>
