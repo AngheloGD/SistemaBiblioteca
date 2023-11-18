@@ -12,23 +12,23 @@
 <%@page import="java.util.List"%>
 
 <%
-String codigo = request.getParameter("codiPres");
-if (codigo != null) {
-    int codigoPres = Integer.parseInt(codigo);
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_SistemaBiblioteca_war_1.0-SNAPSHOTPU");
+    String codigo = request.getParameter("codiPres");
+    if (codigo != null) {
+        int codigoPres = Integer.parseInt(codigo);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Biblioteca_war_1.0-SNAPSHOTPU");
 
-    PrestamosJpaController prestamosDao = new PrestamosJpaController();
-    Prestamos prestamo = prestamosDao.findPrestamos(codigoPres);
+        PrestamosJpaController prestamosDao = new PrestamosJpaController();
+        Prestamos prestamo = prestamosDao.findPrestamos(codigoPres);
 
-    if (prestamo != null) {
-        String estado = request.getParameter("Estado");
-        if (estado != null) {
-            prestamo.setEstado(estado);
+        if (prestamo != null) {
+            String estado = request.getParameter("Estado");
+            if (estado != null) {
+                prestamo.setEstado(estado);
 
-            try {
-                prestamosDao.edit(prestamo);
-                response.sendRedirect("Prestamos.jsp");
-            } catch (Exception e) {
+                try {
+                    prestamosDao.edit(prestamo);
+                    response.sendRedirect("Prestamo.jsp");
+                } catch (Exception e) {
 %>
 <!DOCTYPE html>
 <html>
@@ -42,8 +42,8 @@ if (codigo != null) {
     </body>
 </html>
 <%
-            }
-        } else {
+    }
+} else {
 %>
 <!DOCTYPE html>
 <html>
@@ -55,24 +55,29 @@ if (codigo != null) {
     <body>
         <form method="post" action="editar.jsp">
             <h1>Editar Préstamo</h1>
-            Código de Préstamo: <%= prestamo.getCodiPres() %><br>
-            Código de Usuario: <%= prestamo.getCodiUsua().getCodiUsua() %><br>
-            Código de Libro: <%= prestamo.getCodiLib().getCodiLib() %><br>
+            Código de Préstamo: <%= prestamo.getCodiPres()%><br>
+            Código de Usuario: <%= prestamo.getCodiUsua().getCodiUsua()%><br>
+            Código de Libro: <%= prestamo.getCodiLib().getCodiLib()%><br>
             Estado:
             <select name="Estado">
-                <option value="entregado" <% if (prestamo.getEstado().equals("entregado")) out.print("selected"); %>>Entregado</option>
-                <option value="vencido" <% if (prestamo.getEstado().equals("vencido")) out.print("selected"); %>>Vencido</option>
-                <option value="prestado" <% if (prestamo.getEstado().equals("prestado")) out.print("selected"); %>>Prestado</option>
+                <option value="entregado" <% if (prestamo.getEstado().equals("entregado")) {
+                        out.print("selected");
+                    } %>>Entregado</option>
+                <option value="vencido" <% if (prestamo.getEstado().equals("vencido")) {
+                        out.print("selected");
+                    } %>>Vencido</option>
+                <option value="prestado" <% if (prestamo.getEstado().equals("prestado"))
+                        out.print("selected");%>>Prestado</option>
                 <!-- Puedes agregar más opciones si es necesario -->
             </select>
-            <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres() %>">
+            <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">
             <input type="submit" value="Guardar">
         </form>
     </body>
 </html>
 <%
-        }
-    } else {
+    }
+} else {
 %>
 <!DOCTYPE html>
 <html>
@@ -99,5 +104,5 @@ if (codigo != null) {
     </body>
 </html>
 <%
-}
+    }
 %>
