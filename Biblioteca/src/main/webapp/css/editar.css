@@ -1,0 +1,45 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 8 nov 2023, 7:57:19
+    Author     : ANGHELO
+*/
+h1 {
+    color: #000;
+    font-weight: bold; /* Hace el título en negrita */
+    margin: 20px 0;
+}
+
+form {
+    max-width: 400px; /* Ancho máximo del formulario */
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    padding: 20px;
+    border: 1px solid #e3e6f0;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 #888888;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #e3e6f0;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: #4e73df;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #005C8B;
+}
+
