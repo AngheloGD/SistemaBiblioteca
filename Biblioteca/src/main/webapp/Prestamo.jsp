@@ -36,7 +36,7 @@
             <div class="visible-xs font-movile-menu mobile-menu-button"></div>
             <div class="full-reset container-menu-movile custom-scroll-containers">
                 <div class="logo full-reset all-tittles">
-                    <i class="visible-xs zmdi zmdi-close pull-left mobile-menu-button" style="line-height: 55px; cursor: pointer; padding: 0 10px; margin-left: 7px;"></i> 
+                    <i class="visible-xs zmdi zmdi-close pull-left mobile-menu-button" style="line-height: 55px; cursor: pointer; padding: 0 10px; margin-left: 7px;"></i>
                     sistema bibliotecario
                 </div>
                 <div class="full-reset" style="background-color:#2B3D51; padding: 10px 0; color:#fff;">
@@ -48,27 +48,22 @@
                 <div class="full-reset nav-lateral-list-menu">
                     <ul class="list-unstyled">
                         <li><a href="Principal.html"><i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;&nbsp; Inicio</a></li>
-
                         <li>
                             <div class="dropdown-menu-button"><i class="zmdi zmdi-account-add zmdi-hc-fw"></i>&nbsp;&nbsp; Registro de usuarios <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw"></i></div>
                             <ul class="list-unstyled">
-
-
                                 <li><a href="Estudiante.html"><i class="zmdi zmdi-accounts zmdi-hc-fw"></i>&nbsp;&nbsp; Nuevo estudiante</a></li>
-
                             </ul>
                         </li>
                         <li>
                             <div class="dropdown-menu-button"><i class="zmdi zmdi-assignment-o zmdi-hc-fw"></i>&nbsp;&nbsp; Libros <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw"></i></div>
                             <ul class="list-unstyled">
                                 <li><a href="Libros.html"><i class="zmdi zmdi-book zmdi-hc-fw"></i>&nbsp;&nbsp; Nuevo libro</a></li>
-
                             </ul>
                         </li>
                         <li>
                             <div class="dropdown-menu-button"><i class="zmdi zmdi-alarm zmdi-hc-fw"></i>&nbsp;&nbsp; Préstamos y reservaciones <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw"></i></div>
                             <ul class="list-unstyled">
-                                <li><a href="Prestamos.html"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>&nbsp;&nbsp; Todos los préstamos</a></li>
+                                <li><a href="Prestamo.jsp"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>&nbsp;&nbsp; Todos los préstamos</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -79,18 +74,25 @@
             <nav class="navbar-user-top full-reset">
                 <ul class="list-unstyled full-reset">
                     <figure>
-                        <img src="assets/img/user01.png" alt="user-picture" class="img-responsive img-circle center-box">
+                        <img src="assets/img/ingeniero-de-software.png" alt="user-picture" class="img-responsive img-circle center-box">
                     </figure>
                     <li style="color:#fff; cursor:default;">
-                        <span class="all-tittles">Admin Name</span>
+                        <span class="all-tittles" id="nombreUsuario"></span>
                     </li>
-                    <li  class="tooltips-general exit-system-button" data-href="index.html" data-placement="bottom" title="Salir del sistema">
+                    <script>
+            var nombreUsuario = localStorage.getItem('username');
+            if (nombreUsuario) {
+                document.getElementById('nombreUsuario').textContent = nombreUsuario;
+            }
+                    </script>
+                    <li class="tooltips-general exit-system-button" id="logoutButton" data-placement="bottom" title="Salir del sistema">
                         <i class="zmdi zmdi-power"></i>
                     </li>
-                    <li  class="tooltips-general search-book-button" data-href="searchbook.html" data-placement="bottom" title="Buscar libro">
+
+
+                    <li class="tooltips-general search-book-button" data-href="searchbook.html" data-placement="bottom" title="Buscar libro">
                         <i class="zmdi zmdi-search"></i>
                     </li>
-
                     <li class="mobile-menu-button visible-xs" style="float: left !important;">
                         <i class="zmdi zmdi-menu"></i>
                     </li>
@@ -146,7 +148,8 @@
                                     <button class="btn btn-danger" onclick="confirmarEliminar(event)"><i class="zmdi zmdi-delete"></i></button>
                                 </form>
 
-                                <form method="post" action="#" onsubmit="openEditarForm('<%= prestamo.getCodiPres()%>'); return false;" Style="display: inline-block;">
+                                <form method="post" action="#" onsubmit="openEditarForm('<%= prestamo.getCodiPres()%>');
+                                        return false;" Style="display: inline-block;">
 
                                     <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">
                                     <button class="btn btn-info"><i class="zmdi zmdi-file-text"></i></button>
@@ -214,5 +217,57 @@
                  <div class="footer-copyright full-reset all-tittles">© 2023 INGENIERIA</div>
              </footer>-->
         </div>
+        <!--Para el cierre de sesion-->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Verificar si hay una sesión activa al cargar la página
+                var username = localStorage.getItem('username');
+                if (!username) {
+                    // Si no hay una sesión activa, redirigir a la página de inicio de sesión
+                    window.location.replace('/Biblioteca/');
+                } else {
+                    // Mostrar el nombre de usuario u otras acciones que desees realizar cuando haya una sesión activa
+                    document.getElementById('nombreUsuario').textContent = username;
+
+                    // Agregar un evento para controlar los cambios en el historial solo si hay una sesión activa
+                    window.addEventListener('popstate', function (event) {
+                        history.pushState(null, null, '/Biblioteca/');
+                    });
+                }
+
+                // Evento para el botón de cierre de sesión
+                document.getElementById('logoutButton').addEventListener('click', function () {
+                    // Mostrar el cuadro de confirmación
+                    var confirmLogout = confirm("¿Está seguro de que desea salir del sistema?");
+                    if (confirmLogout) {
+                        // Realizar una solicitud AJAX para cerrar la sesión en el servidor
+                        $.ajax({
+                            type: "POST",
+                            url: "cerrarSesion", // Reemplazar con la URL real de tu servlet de cierre de sesión
+                            success: function () {
+                                // Limpiar el localStorage y sessionStorage
+                                localStorage.removeItem('username');
+                                sessionStorage.removeItem('username');
+
+                                // Redirigir a la página de inicio de la aplicación
+                                window.location.replace('/Biblioteca/');
+                            },
+                            error: function () {
+                                alert("Error al cerrar sesión");
+                            }
+                        });
+                    }
+                });
+
+                // Agregar un evento para detectar cambios en el almacenamiento local (puede indicar cierre de sesión desde otra pestaña)
+                window.addEventListener('storage', function (event) {
+                    if (event.key === 'username' && !event.newValue) {
+                        // Si el valor de 'username' en el almacenamiento local se ha eliminado (cierre de sesión),
+                        // redirigir a la página de inicio de sesión
+                        window.location.replace('/Biblioteca/');
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

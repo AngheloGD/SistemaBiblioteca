@@ -80,46 +80,7 @@
                     <li class="tooltips-general exit-system-button" id="logoutButton" data-placement="bottom" title="Salir del sistema">
                         <i class="zmdi zmdi-power"></i>
                     </li>
-                    <script>
-                        document.getElementById('logoutButton').addEventListener('click', function () {
-                            // Mostrar el cuadro de confirmación
-                            var confirmLogout = confirm("¿Está seguro de que desea salir del sistema?");
-                            if (confirmLogout) {
-                                // Realizar una solicitud AJAX para cerrar la sesión en el servidor
-                                $.ajax({
-                                    type: "POST",
-                                    url: "cerrarSesion", // Reemplazar con la URL real de tu servlet de cierre de sesión
-                                    success: function () {
-                                        // Limpiar el localStorage y sessionStorage
-                                        localStorage.removeItem('username');
-                                        sessionStorage.removeItem('username');
 
-                                        // Redirigir a la página de inicio de sesión
-                                        window.location.href = 'index.html';
-
-                                        // Modificar la entrada actual del historial para evitar que el usuario regrese a la página principal
-                                        history.replaceState(null, null, 'index.html');
-                                    },
-                                    error: function () {
-                                        alert("Error al cerrar sesión");
-                                    }
-                                });
-                            }
-                        });
-                    </script>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            // Verificar si hay una sesión activa al cargar la página
-                            var username = localStorage.getItem('username');
-                            if (!username) {
-                                // Si no hay una sesión activa, redirigir a la página de inicio de sesión
-                                window.location.href = 'index.html';
-                            } else {
-                                // Mostrar el nombre de usuario u otras acciones que desees realizar cuando haya una sesión activa
-                                document.getElementById('nombreUsuario').textContent = username;
-                            }
-                        });
-                    </script>
 
 
                     <li class="tooltips-general search-book-button" data-href="searchbook.html" data-placement="bottom" title="Buscar libro">
@@ -198,7 +159,58 @@
                 <div class="footer-copyright full-reset all-tittles">© 2023 INGENIERIA</div>
             </footer>
         </div>
+        <!--Para el cierre de sesion-->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Verificar si hay una sesión activa al cargar la página
+                var username = localStorage.getItem('username');
+                if (!username) {
+                    // Si no hay una sesión activa, redirigir a la página de inicio de sesión
+                    window.location.replace('/Biblioteca/');
+                } else {
+                    // Mostrar el nombre de usuario u otras acciones que desees realizar cuando haya una sesión activa
+                    document.getElementById('nombreUsuario').textContent = username;
 
+                    // Agregar un evento para controlar los cambios en el historial solo si hay una sesión activa
+                    window.addEventListener('popstate', function (event) {
+                        history.pushState(null, null, '/Biblioteca/');
+                    });
+                }
+
+                // Evento para el botón de cierre de sesión
+                document.getElementById('logoutButton').addEventListener('click', function () {
+                    // Mostrar el cuadro de confirmación
+                    var confirmLogout = confirm("¿Está seguro de que desea salir del sistema?");
+                    if (confirmLogout) {
+                        // Realizar una solicitud AJAX para cerrar la sesión en el servidor
+                        $.ajax({
+                            type: "POST",
+                            url: "cerrarSesion", // Reemplazar con la URL real de tu servlet de cierre de sesión
+                            success: function () {
+                                // Limpiar el localStorage y sessionStorage
+                                localStorage.removeItem('username');
+                                sessionStorage.removeItem('username');
+
+                                // Redirigir a la página de inicio de la aplicación
+                                window.location.replace('/Biblioteca/');
+                            },
+                            error: function () {
+                                alert("Error al cerrar sesión");
+                            }
+                        });
+                    }
+                });
+
+                // Agregar un evento para detectar cambios en el almacenamiento local (puede indicar cierre de sesión desde otra pestaña)
+                window.addEventListener('storage', function (event) {
+                    if (event.key === 'username' && !event.newValue) {
+                        // Si el valor de 'username' en el almacenamiento local se ha eliminado (cierre de sesión),
+                        // redirigir a la página de inicio de sesión
+                        window.location.replace('/Biblioteca/');
+                    }
+                });
+            });
+        </script>
     </body>
 
 </html>
