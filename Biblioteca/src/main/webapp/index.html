@@ -54,22 +54,56 @@
         <script src="js/sb-admin-2.min.js"></script>
         <script>
             $(document).ready(function () {
-                $("#btnValidar").click(function () {
-                    let rol = $("#cmbRol").val();
-                    let logi = $("#txtUsuario").val();
-                    let pass = $("#txtClave").val();
-                    $.get("validar.jsp", {logi: logi, pass: pass, rol: rol}, function (data) {
-                        if (data === "\n\nENCONTRADO") {
-                            $(location).attr('href', 'Principal.html');
-                        } else {
-                            $("#resultado").html(data);
-                            alert('Usuario no encontrado o credenciales incorrectas');
-                        }
-                    });
+                $("#btnValidar").click(function (event) {
+                    event.preventDefault(); // Evitar la presentación de formulario predeterminada
 
-                    return false; // Prevenir la recarga de la página
+                    // Obtener valores del formulario
+                    let roles = $("#cmbRol").val();
+                    let logiUsua = $("#txtUsuario").val();
+                    let passUsua = $("#txtClave").val();
+
+                    // Verificar que los valores no estén vacíos
+                    if (roles && logiUsua && passUsua) {
+                        // Crear un objeto de datos para enviar al servlet
+                        let data = {
+                            "roles": roles,
+                            "logiUsua": logiUsua,
+                            "passUsua": passUsua
+                        };
+
+                        // Realizar una solicitud AJAX al servlet
+                        $.ajax({
+                            type: "POST",
+                            url: "validar", // Reemplazar con la URL real de tu servlet
+                            data: data,
+                            success: function (response) {
+                                // Analizar la respuesta JSON
+                                let result = JSON.parse(response);
+
+                                // Verificar el resultado
+                                if (result.resultado === "ok") {
+                                    localStorage.setItem('username', logiUsua); // Guardar el nombre de usuario en localStorage
+                                    setTimeout(function () {
+                                        window.location.href = "Principal.html";
+                                    }, 2000); // Redirige después de 2 segundos
+                                } else {
+                                    // Manejar el fallo de inicio de sesión
+                                    alert("Inicio de sesión fallido. Por favor, verifica tus credenciales.");
+                                }
+                            },
+                            error: function () {
+                                // Manejar el error de AJAX
+                                alert("Error en la solicitud AJAX");
+                            }
+                        });
+                    } else {
+                        // Manejar valores vacíos
+                        alert("Por favor, completa todos los campos");
+                    }
                 });
             });
+
+
         </script>
     </body>
 </html>

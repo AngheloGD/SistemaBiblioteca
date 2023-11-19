@@ -72,9 +72,21 @@
                     <figure>
                         <img src="assets/img/user01.png" alt="user-picture" class="img-responsive img-circle center-box">
                     </figure>
+
                     <li style="color:#fff; cursor:default;">
-                        <span class="all-tittles">Admin Name</span>
+                        <span class="all-tittles" id="nombreUsuario"></span>
                     </li>
+
+
+                    <script>
+            // Recuperar el nombre de usuario del localStorage
+            var nombreUsuario = localStorage.getItem('username');
+
+            // Mostrar el nombre de usuario en el lugar deseado
+            if (nombreUsuario) {
+                document.getElementById('nombreUsuario').textContent = nombreUsuario;
+            }
+                    </script>
                     <li  class="tooltips-general exit-system-button" data-href="index.html" data-placement="bottom" title="Salir del sistema">
                         <i class="zmdi zmdi-power"></i>
                     </li>
