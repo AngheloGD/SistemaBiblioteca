@@ -10,5 +10,5 @@
     prestamosDao.eliminarPrestamo(codiPres); // Debes implementar este método
 
     // Redirigir de nuevo a la página principal o a donde desees
-    response.sendRedirect("Prestamos.jsp"); // Cambia la URL según tu estructura
+    response.sendRedirect("Prestamo.jsp"); // Cambia la URL según tu estructura
 %>

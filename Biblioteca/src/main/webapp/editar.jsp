@@ -1,9 +1,3 @@
-<%-- 
-    Document: editar
-    Created on : 7 nov 2023, 2:15:31
-    Author     : ANGHELO
---%>
-
 <%@page import="javax.persistence.EntityManagerFactory"%>
 <%@page import="dto.Prestamos"%>
 <%@page import="dao.PrestamosJpaController"%>
@@ -27,8 +21,37 @@
 
                 try {
                     prestamosDao.edit(prestamo);
-                    response.sendRedirect("Prestamo.jsp");
-                } catch (Exception e) {
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Editar Préstamo</title>
+        <style>
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+            form {
+                text-align: center;
+            }
+        </style>
+        <script>
+            // Cierra la ventana emergente después de la edición
+            window.opener.location.reload();
+            window.close();
+        </script>
+    </head>
+    <body>
+        <h1>Editar Préstamo</h1>
+        <p>Préstamo editado correctamente.</p>
+    </body>
+</html>
+<%
+} catch (Exception e) {
 %>
 <!DOCTYPE html>
 <html>
@@ -67,7 +90,7 @@
                         out.print("selected");
                     } %>>Vencido</option>
                 <option value="prestado" <% if (prestamo.getEstado().equals("prestado"))
-                        out.print("selected");%>>Prestado</option>
+                                        out.print("selected");%>>Prestado</option>
                 <!-- Puedes agregar más opciones si es necesario -->
             </select>
             <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">

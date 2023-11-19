@@ -141,21 +141,41 @@
                             <div class="div-table-cell" style="width: 22%;"><%= libro.getCodiLib()%></div>
                             <div class="div-table-cell" style="width: 10%;"><%= prestamo.getEstado()%></div>
                             <div class="div-table-cell" style="width: 8%;">
-                                <form method="post" action="eliminarPrestamo.jsp" style="display: inline-block;">
+                                <form id="eliminarForm" method="post" action="eliminarPrestamo.jsp" style="display: inline-block;">
                                     <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">
-                                    <button class="btn btn-danger"><i class="zmdi zmdi-delete"></i></button>
+                                    <button class="btn btn-danger" onclick="confirmarEliminar(event)"><i class="zmdi zmdi-delete"></i></button>
                                 </form>
-                                <form method="post" action="editar.jsp" style="display: inline-block;">
+
+                                <form method="post" action="#" onsubmit="openEditarForm('<%= prestamo.getCodiPres()%>'); return false;" Style="display: inline-block;">
+
                                     <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">
                                     <button class="btn btn-info"><i class="zmdi zmdi-file-text"></i></button>
                                 </form>
                             </div>
+
                         </div>
                         <% }%>
                     </div>
                 </div>
             </div>
+            <script>
+                function confirmarEliminar(event) {
+                    event.preventDefault(); // Prevenir la acción por defecto del botón (enviar el formulario)
 
+                    var confirmacion = confirm("¿Está seguro de que desea eliminar este préstamo?");
+
+                    if (confirmacion) {
+                        document.getElementById('eliminarForm').submit(); // Enviar el formulario si se hace clic en Aceptar
+                    }
+// Si se hace clic en Cancelar, no se hará nada
+                }
+            </script>
+            <script>
+                function openEditarForm(codiPres) {
+                    // Abre la ventana emergente con el formulario de editar.jsp
+                    window.open('editar.jsp?codiPres=' + codiPres, 'Editar Préstamo', 'width=600,height=400');
+                }
+            </script>
             <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -172,27 +192,27 @@
                     </div>
                 </div>
             </div>
-           <!-- <footer class="footer full-reset">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <h4 class="all-tittles">Acerca de Nosotros</h4>
-                            <p>
-                                Bueno somos un grupito solido, muy estudiosos, Eh, espero que sea de su agrado este proyecto y aprovechenlo :)
-                            </p>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <h4 class="all-tittles">Desarrollados </h4>
-                            <ul class="list-unstyled">
-                                <li><i class="zmdi zmdi-check zmdi-hc-fw"></i>&nbsp; Anghelo Guerrero<i class="zmdi zmdi-facebook zmdi-hc-fw footer-social"></i><i class="zmdi zmdi-twitter zmdi-hc-fw footer-social"></i></li>
-                                <li><i class="zmdi zmdi-check zmdi-hc-fw"></i>&nbsp; Fiorella Durand<i class="zmdi zmdi-facebook zmdi-hc-fw footer-social"></i><i class="zmdi zmdi-twitter zmdi-hc-fw footer-social"></i></li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-copyright full-reset all-tittles">© 2023 INGENIERIA</div>
-            </footer>-->
+            <!-- <footer class="footer full-reset">
+                 <div class="container-fluid">
+                     <div class="row">
+                         <div class="col-xs-12 col-sm-6">
+                             <h4 class="all-tittles">Acerca de Nosotros</h4>
+                             <p>
+                                 Bueno somos un grupito solido, muy estudiosos, Eh, espero que sea de su agrado este proyecto y aprovechenlo :)
+                             </p>
+                         </div>
+                         <div class="col-xs-12 col-sm-6">
+                             <h4 class="all-tittles">Desarrollados </h4>
+                             <ul class="list-unstyled">
+                                 <li><i class="zmdi zmdi-check zmdi-hc-fw"></i>&nbsp; Anghelo Guerrero<i class="zmdi zmdi-facebook zmdi-hc-fw footer-social"></i><i class="zmdi zmdi-twitter zmdi-hc-fw footer-social"></i></li>
+                                 <li><i class="zmdi zmdi-check zmdi-hc-fw"></i>&nbsp; Fiorella Durand<i class="zmdi zmdi-facebook zmdi-hc-fw footer-social"></i><i class="zmdi zmdi-twitter zmdi-hc-fw footer-social"></i></li>
+ 
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="footer-copyright full-reset all-tittles">© 2023 INGENIERIA</div>
+             </footer>-->
         </div>
     </body>
 </html>
