@@ -1,0 +1,35 @@
+#tablaLibros {
+    margin: auto;
+    padding: 100px;
+}
+#tablaLibros table, th, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#tablaLibros table {
+    width: 100%;
+}
+
+#tablaLibros th {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+#tablaLibros th, td {
+    text-align: center;
+    font-family: verdana;
+    padding: 10px;
+}
+
+/*#tablaLibros tr:hover {
+    background-color: powderblue;
+}*/
+
+#divFormulario label{
+    font-family: verdana;
+}
+
+.filaSeleccionada {
+    background-color: powderblue;
+}

@@ -28,10 +28,15 @@ public class LibrosJpaController implements Serializable {
         this.emf = emf;
     }
     
+
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Biblioteca_war_1.0-SNAPSHOTPU");
+
     public LibrosJpaController() {
+       
     }
     
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_SistemaBiblioteca_war_1.0-SNAPSHOTPU");
+  
+   
     
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -177,6 +182,17 @@ public class LibrosJpaController implements Serializable {
             em.close();
         }
     }
+     public List<Libros> findLibrosByGeneLib(String geneLib) {
+        EntityManager em = getEntityManager();
+        try {
+            // Using JPQL (Java Persistence Query Language) for a named query
+            Query query = em.createQuery("SELECT l FROM Libros l WHERE l.geneLib = :geneLib");
+            query.setParameter("geneLib", geneLib);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
     
     public int getLibrosCount() {
         EntityManager em = getEntityManager();
@@ -190,5 +206,12 @@ public class LibrosJpaController implements Serializable {
             em.close();
         }
     }
-    
+    public static void main(String[] args) {
+        LibrosJpaController liDAO = new LibrosJpaController();
+        List<Libros> lista= liDAO.findLibrosEntities();
+        System.out.println(lista.size());
+    }
+   
 }
+
+       
