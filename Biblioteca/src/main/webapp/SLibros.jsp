@@ -1,26 +1,21 @@
 <%-- 
-    Document   : Prestamo
-    Created on : 18 nov 2023, 13:42:52
+    Document   : SLibros
+    Created on : 19 nov 2023, 18:18:13
     Author     : ANGHELO
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="dto.Libros"%>
-<%@ page import="java.util.List" %>
-<%@ page import="dto.Prestamos" %>
-<%@ page import="dao.PrestamosJpaController" %>
-<%@ page import="dto.Usuario" %>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <title>Prestamos</title>
+        <title>Libros</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="Shortcut Icon" type="image/x-icon" href="assets/icons/book.ico" />
         <script src="js/sweet-alert.min.js"></script>
         <link rel="stylesheet" href="css/sweet-alert.css">
         <link rel="stylesheet" href="css/material-design-iconic-font.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
@@ -33,7 +28,6 @@
         <script src="js/main.js"></script>
     </head>
     <body>
-
         <div class="navbar-lateral full-reset">
             <div class="visible-xs font-movile-menu mobile-menu-button"></div>
             <div class="full-reset container-menu-movile custom-scroll-containers">
@@ -63,9 +57,9 @@
                             </ul>
                         </li>
                         <li>
-                            <div class="dropdown-menu-button"><i class="zmdi zmdi-alarm zmdi-hc-fw"></i>&nbsp;&nbsp; Pr√©stamos y reservaciones <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw"></i></div>
+                            <div class="dropdown-menu-button"><i class="zmdi zmdi-alarm zmdi-hc-fw"></i>&nbsp;&nbsp; PrÈstamos y reservaciones <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw"></i></div>
                             <ul class="list-unstyled">
-                                <li><a href="Prestamo.jsp"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>&nbsp;&nbsp; Todos los pr√©stamos</a></li>
+                                <li><a href="Prestamo.jsp"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>&nbsp;&nbsp; Todos los prÈstamos</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -91,7 +85,6 @@
                         <i class="zmdi zmdi-power"></i>
                     </li>
 
-
                     <li class="tooltips-general search-book-button" data-href="searchbook.html" data-placement="bottom" title="Buscar libro">
                         <i class="zmdi zmdi-search"></i>
                     </li>
@@ -102,85 +95,85 @@
             </nav>
             <div class="container">
                 <div class="page-header">
-                    <h1 class="all-tittles">Sistema bibliotecario <small>pr√©stamos y reservaciones</small></h1>
+                    <h1 class="all-tittles">Sistema bibliotecario <small>AdministraciÛn De Libros</small></h1>
                 </div>
             </div>
-  
+            <div class="conteiner-fluid">
+                <ul class="nav nav-tabs nav-justified"  style="font-size: 17px;">
+
+
+                    <li role="presentation" class="active"><a href="Estudiante.html">Libros</a></li>
+
+                </ul>
+            </div>
             <div class="container-fluid"  style="margin: 50px 0;">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
-                        <img src="assets/img/calendar_book.png" alt="calendar" class="img-responsive center-box" style="max-width: 110px;">
+                        <img src="assets/img/leer.png" alt="user" class="img-responsive center-box" style="max-width: 110px;">
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
-                        Bienvenido a esta secci√≥n, aqu√≠ se muestran todos los pr√©stamos de libros realizados hasta la fecha y que ya se entregaron satisfactoriamente
+                        Bienvenido a la secciÛn para separar tu Libro , para poder registrar deber·s de llenar todos los campos del siguiente formulario
                     </div>
                 </div>
             </div>
+
             <div class="container-fluid">
-                <h2 class="text-center all-tittles">Listado de pr√©stamos</h2>
-                <button onclick="location.href = 'SLibros.jsp'" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span> <!-- Clase de icono de Bootstrap -->
-                </button> <br><br>
+                <script>
+                    function validarFormulario(event) {
+                        var codiUsua = document.getElementById("codiUsua").value;
+                        var codiLib = document.getElementById("codiLib").value;
+                        var estado = document.getElementById("estado").value;
 
-                <div class="table-responsive">
-                    <div class="div-table" style="margin:0 !important;">
-                        <div class="div-table-row div-table-row-list" style="background-color:#DFF0D8; font-weight:bold;">
-                            <div class="div-table-cell" style="width: 6%;">Codigo de Prestamos</div>
-                            <div class="div-table-cell" style="width: 22%;">Codigo Usuario</div>
-                            <div class="div-table-cell" style="width: 22%;">Codigo del Libro</div>
-                            <div class="div-table-cell" style="width: 10%;">Estado</div>
-                            <div class="div-table-cell" style="width: 10%;">Opciones</div>
-                        </div>
-                        <%
-                            PrestamosJpaController prestamosDao = new PrestamosJpaController();
-                            List<Prestamos> prestamosList = prestamosDao.mostrarprestamos();
-
-                            for (Prestamos prestamo : prestamosList) {
-                                Usuario usuario = prestamo.getCodiUsua();
-                                Libros libro = prestamo.getCodiLib();
-                        %>
-                        <div class="div-table-row div-table-row-list">
-                            <div class="div-table-cell" style="width: 6%;"><%= prestamo.getCodiPres()%></div>
-                            <div class="div-table-cell" style="width: 22%;"><%= usuario.getCodiUsua()%></div>
-                            <div class="div-table-cell" style="width: 22%;"><%= libro.getCodiLib()%></div>
-                            <div class="div-table-cell" style="width: 10%;"><%= prestamo.getEstado()%></div>
-                            <div class="div-table-cell" style="width: 8%;">
-                                <form id="eliminarForm" method="post" action="eliminarPrestamo.jsp" style="display: inline-block;">
-                                    <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">
-                                    <button class="btn btn-danger" onclick="confirmarEliminar(event)"><i class="zmdi zmdi-delete"></i></button>
-                                </form>
-
-                                <form method="post" action="#" onsubmit="openEditarForm('<%= prestamo.getCodiPres()%>');
-                                        return false;" Style="display: inline-block;">
-
-                                    <input type="hidden" name="codiPres" value="<%= prestamo.getCodiPres()%>">
-                                    <button class="btn btn-info"><i class="zmdi zmdi-file-text"></i></button>
-                                </form>
-                            </div>
-
-                        </div>
-                        <% }%>
-                    </div>
-                </div>
-            </div>
-            <script>
-                function confirmarEliminar(event) {
-                    event.preventDefault(); // Prevenir la acci√≥n por defecto del bot√≥n (enviar el formulario)
-
-                    var confirmacion = confirm("¬øEst√° seguro de que desea eliminar este pr√©stamo?");
-
-                    if (confirmacion) {
-                        document.getElementById('eliminarForm').submit(); // Enviar el formulario si se hace clic en Aceptar
+                        if (codiUsua === "" || codiLib === "" || estado === "") {
+                            alert("Todos los campos son obligatorios. Por favor, complÈtalos.");
+                            event.preventDefault(); // Evita que el formulario se envÌe
+                        } else {
+                            alert("Registro Agregado con Èxito");
+                        }
                     }
-// Si se hace clic en Cancelar, no se har√° nada
-                }
-            </script>
-            <script>
-                function openEditarForm(codiPres) {
-                    // Abre la ventana emergente con el formulario de editar.jsp
-                    window.open('editar.jsp?codiPres=' + codiPres, 'Editar Pr√©stamo', 'width=600,height=400');
-                }
-            </script>
+                </script>
+                <div class="container-flat-form">
+                    <div class="title-flat-form title-flat-blue">Separar Libro</div>
+                    <form autocomplete="off" action="prestamos" method="post" onsubmit="validarFormulario(event);">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                                <legend>Ingrese los Datos</legend>
+                                <br><br>
+                                <div class="group-material">
+                                    <input type="text" class="material-control tooltips-general" id="codiUsua" name="codiUsua" required="" maxlength="20" data-toggle="tooltip" data-placement="top" title="NIE de estudiante">
+                                    <span class="highlight"></span>
+                                    <span class="bar"></span>
+                                    <label for "codiUsua">CÛdigo de Usuario:</label>
+                                </div>
+                                <div class="group-material">
+                                    <input type="text" class="material-control tooltips-general" id="codiLib" name="codiLib" placeholder="Escribe aquÌ el cÛdigo del libro" required="" maxlength="20" data-toggle="tooltip" data-placement="top" title="Codigo del Libro">
+                                    <span class="highlight"></span>
+                                    <span class="bar"></span>
+                                    <label for "codiLib">Codigo del Libro</label>
+                                </div>
+                                <div class="group-material">
+                                    <input type="text" class="material-control tooltips-general" id="estado" name="estado" value="Prestado" readonly>
+                                    <span class="highlight"></span>
+                                    <span class="bar"></span>
+                                    <label for="estado"></label>
+                                </div>
+
+                                <p class="text-center">
+                                    <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button>
+                                    <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Guardar</button>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+
+                    <script>
+                        function irAPrestamosJSP() {
+                            window.location.href = "Prestamo.jsp"; // Redirige a la p·gina Prestamos.jsp
+                        }
+                    </script>
+                </div>
+
+            </div>
             <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -197,75 +190,56 @@
                     </div>
                 </div>
             </div>
-            <!-- <footer class="footer full-reset">
-                 <div class="container-fluid">
-                     <div class="row">
-                         <div class="col-xs-12 col-sm-6">
-                             <h4 class="all-tittles">Acerca de Nosotros</h4>
-                             <p>
-                                 Bueno somos un grupito solido, muy estudiosos, Eh, espero que sea de su agrado este proyecto y aprovechenlo :)
-                             </p>
-                         </div>
-                         <div class="col-xs-12 col-sm-6">
-                             <h4 class="all-tittles">Desarrollados </h4>
-                             <ul class="list-unstyled">
-                                 <li><i class="zmdi zmdi-check zmdi-hc-fw"></i>&nbsp; Anghelo Guerrero<i class="zmdi zmdi-facebook zmdi-hc-fw footer-social"></i><i class="zmdi zmdi-twitter zmdi-hc-fw footer-social"></i></li>
-                                 <li><i class="zmdi zmdi-check zmdi-hc-fw"></i>&nbsp; Fiorella Durand<i class="zmdi zmdi-facebook zmdi-hc-fw footer-social"></i><i class="zmdi zmdi-twitter zmdi-hc-fw footer-social"></i></li>
- 
-                             </ul>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="footer-copyright full-reset all-tittles">¬© 2023 INGENIERIA</div>
-             </footer>-->
+
         </div>
+
         <!--Para el cierre de sesion-->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // Verificar si hay una sesi√≥n activa al cargar la p√°gina
+                // Verificar si hay una sesiÛn activa al cargar la p·gina
                 var username = localStorage.getItem('username');
                 if (!username) {
-                    // Si no hay una sesi√≥n activa, redirigir a la p√°gina de inicio de sesi√≥n
+                    // Si no hay una sesiÛn activa, redirigir a la p·gina de inicio de sesiÛn
                     window.location.replace('/Biblioteca/');
                 } else {
-                    // Mostrar el nombre de usuario u otras acciones que desees realizar cuando haya una sesi√≥n activa
+                    // Mostrar el nombre de usuario u otras acciones que desees realizar cuando haya una sesiÛn activa
                     document.getElementById('nombreUsuario').textContent = username;
 
-                    // Agregar un evento para controlar los cambios en el historial solo si hay una sesi√≥n activa
+                    // Agregar un evento para controlar los cambios en el historial solo si hay una sesiÛn activa
                     window.addEventListener('popstate', function (event) {
                         history.pushState(null, null, '/Biblioteca/');
                     });
                 }
 
-                // Evento para el bot√≥n de cierre de sesi√≥n
+                // Evento para el botÛn de cierre de sesiÛn
                 document.getElementById('logoutButton').addEventListener('click', function () {
-                    // Mostrar el cuadro de confirmaci√≥n
-                    var confirmLogout = confirm("¬øEst√° seguro de que desea salir del sistema?");
+                    // Mostrar el cuadro de confirmaciÛn
+                    var confirmLogout = confirm("øEst· seguro de que desea salir del sistema?");
                     if (confirmLogout) {
-                        // Realizar una solicitud AJAX para cerrar la sesi√≥n en el servidor
+                        // Realizar una solicitud AJAX para cerrar la sesiÛn en el servidor
                         $.ajax({
                             type: "POST",
-                            url: "cerrarSesion", // Reemplazar con la URL real de tu servlet de cierre de sesi√≥n
+                            url: "cerrarSesion", // Reemplazar con la URL real de tu servlet de cierre de sesiÛn
                             success: function () {
                                 // Limpiar el localStorage y sessionStorage
                                 localStorage.removeItem('username');
                                 sessionStorage.removeItem('username');
 
-                                // Redirigir a la p√°gina de inicio de la aplicaci√≥n
+                                // Redirigir a la p·gina de inicio de la aplicaciÛn
                                 window.location.replace('/Biblioteca/');
                             },
                             error: function () {
-                                alert("Error al cerrar sesi√≥n");
+                                alert("Error al cerrar sesiÛn");
                             }
                         });
                     }
                 });
 
-                // Agregar un evento para detectar cambios en el almacenamiento local (puede indicar cierre de sesi√≥n desde otra pesta√±a)
+                // Agregar un evento para detectar cambios en el almacenamiento local (puede indicar cierre de sesiÛn desde otra pestaÒa)
                 window.addEventListener('storage', function (event) {
                     if (event.key === 'username' && !event.newValue) {
-                        // Si el valor de 'username' en el almacenamiento local se ha eliminado (cierre de sesi√≥n),
-                        // redirigir a la p√°gina de inicio de sesi√≥n
+                        // Si el valor de 'username' en el almacenamiento local se ha eliminado (cierre de sesiÛn),
+                        // redirigir a la p·gina de inicio de sesiÛn
                         window.location.replace('/Biblioteca/');
                     }
                 });

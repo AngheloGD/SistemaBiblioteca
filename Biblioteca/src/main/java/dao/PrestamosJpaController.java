@@ -23,20 +23,20 @@ import javax.persistence.Persistence;
  * @author ANGHELO
  */
 public class PrestamosJpaController implements Serializable {
-    
+
     public PrestamosJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
+
     public PrestamosJpaController() {
     }
-    
+
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Biblioteca_war_1.0-SNAPSHOTPU");
-    
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
+
     public void create(Prestamos prestamos) {
         EntityManager em = null;
         try {
@@ -68,7 +68,7 @@ public class PrestamosJpaController implements Serializable {
             }
         }
     }
-    
+
     public void edit(Prestamos prestamos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -120,7 +120,7 @@ public class PrestamosJpaController implements Serializable {
             }
         }
     }
-    
+
     public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -151,15 +151,15 @@ public class PrestamosJpaController implements Serializable {
             }
         }
     }
-    
+
     public List<Prestamos> findPrestamosEntities() {
         return findPrestamosEntities(true, -1, -1);
     }
-    
+
     public List<Prestamos> findPrestamosEntities(int maxResults, int firstResult) {
         return findPrestamosEntities(false, maxResults, firstResult);
     }
-    
+
     private List<Prestamos> findPrestamosEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -175,7 +175,7 @@ public class PrestamosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Prestamos findPrestamos(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -184,7 +184,7 @@ public class PrestamosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getPrestamosCount() {
         EntityManager em = getEntityManager();
         try {
@@ -197,7 +197,7 @@ public class PrestamosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public void registrarPrestamo(int codiUsua, int codiLib, String estado) {
         // Crear una nueva instancia de Prestamos
         Prestamos prestamo = new Prestamos();
@@ -206,7 +206,7 @@ public class PrestamosJpaController implements Serializable {
         EntityManager em = getEntityManager();
         Usuario usuario = em.find(Usuario.class, codiUsua);
         Libros libro = em.find(Libros.class, codiLib);
-        
+
         if (usuario != null && libro != null) {
             // Establecer el usuario y el libro en el préstamo
             prestamo.setCodiUsua(usuario);
@@ -221,7 +221,7 @@ public class PrestamosJpaController implements Serializable {
             em.getTransaction().commit();
         }
     }
-    
+
     public List<Prestamos> mostrarprestamos() {
         EntityManager em = getEntityManager();
         try {
@@ -231,7 +231,7 @@ public class PrestamosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public void eliminarPrestamo(int codiPres) {
         Prestamos tmp = new Prestamos();
         EntityManager em = getEntityManager();
@@ -240,5 +240,5 @@ public class PrestamosJpaController implements Serializable {
         em.remove(tmp);
         em.getTransaction().commit();
     }
-    
+
 }

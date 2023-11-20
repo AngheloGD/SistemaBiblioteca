@@ -8,7 +8,7 @@
     // Recuperar los datos necesarios para agregar un préstamo
     int codiUsua = Integer.parseInt(request.getParameter("codiUsua")); // Código de usuario
     int codiLib = Integer.parseInt(request.getParameter("codiLib"));   // Código de libro
-    String estado = "Pendiente"; // Estado inicial del préstamo
+    String estado = "Prestado"; // Estado inicial del préstamo
     
     // Crear un nuevo objeto Prestamos con los datos
     Prestamos prestamo = new Prestamos();
