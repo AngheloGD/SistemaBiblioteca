@@ -105,7 +105,7 @@
                     <h1 class="all-tittles">Sistema bibliotecario <small>préstamos y reservaciones</small></h1>
                 </div>
             </div>
-  
+
             <div class="container-fluid"  style="margin: 50px 0;">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">

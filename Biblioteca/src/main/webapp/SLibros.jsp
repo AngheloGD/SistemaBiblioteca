@@ -192,7 +192,6 @@
             </div>
 
         </div>
-
         <!--Para el cierre de sesion-->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
